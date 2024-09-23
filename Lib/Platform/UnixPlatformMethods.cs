@@ -27,6 +27,9 @@ internal sealed class UnixPlatformMethods : IPlatformMethods
     private static extern int shm_unlink(string name);
 
     [DllImport(LibC, SetLastError = true)]
+    private static extern int ftruncate(int fd, int length);
+
+    [DllImport(LibC, SetLastError = true)]
     private static extern nint mmap(nint addr, int len, int prot, int flags, int fd, int offset);
 
     [DllImport(LibC, SetLastError = true)]
@@ -38,6 +41,11 @@ internal sealed class UnixPlatformMethods : IPlatformMethods
         if (desc == -1)
         {
             throw new InvalidOperationException("could not allocate shared memory buffer");
+        }
+
+        if (ftruncate(desc, size) == -1)
+        {
+            throw new InvalidOperationException("could not resize shared memory buffer");
         }
 
         var buffer = mmap(nint.Zero, size, PROT_READ | PROT_WRITE, MAP_SHARED, desc, 0);

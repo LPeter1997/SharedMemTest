@@ -6,7 +6,7 @@ namespace Draco.Coverage;
 /// <summary>
 /// Factory methods for creating shared memory buffers.
 /// </summary>
-internal static class SharedMemory
+public static class SharedMemory
 {
     /// <summary>
     /// Creates a new shared memory buffer.
@@ -35,7 +35,7 @@ internal static class SharedMemory
 /// A piece of shared memory between processes.
 /// </summary>
 /// <typeparam name="T">The element type of the buffer.</typeparam>
-internal unsafe sealed class SharedMemory<T> : IDisposable
+public unsafe sealed class SharedMemory<T> : IDisposable
     where T : unmanaged
 {
     /// <summary>
